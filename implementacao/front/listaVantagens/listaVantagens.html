@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Vantagens Cadastradas</title>
+  <link rel="stylesheet" href="/implementacao/front/listaVantagens/listaVantagens.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Vantagens Cadastradas</h1>
+    <div id="vantagensList" class="vantagens-list">
+      <h2>Lista de Vantagens</h2>
+      <ul id="vantagensUl"></ul>
+    </div>
+  </div>
+
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Resgatar Vantagem</h2>
+      <label for="alunoId">ID do Aluno:</label>
+      <input type="number" id="alunoId" required>
+      <button id="confirmButton">Confirmar</button>
+    </div>
+  </div>
+
+  <script src="/implementacao/front/listaVantagens/listaVantagens.js"></script>
+</body>
+</html>

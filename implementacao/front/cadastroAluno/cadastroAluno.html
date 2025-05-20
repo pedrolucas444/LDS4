@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Aluno</title>
+  <link rel="stylesheet" href="cadastroAluno.css">
+</head>
+<body>
+  <div class="buttonv">
+    <a href="/src/front/pages/index.html">
+      <button class="buttonv">Voltar</button>
+    </a>
+  </div>
+
+  <div class="container">
+    <header>Cadastro de Aluno</header>
+    <form action="#">
+      <div class="title">Informações de Contato:</div>
+      <div class="field">
+        <div class="label">Nome Completo</div>
+        <input type="text" id="nome" required />
+      </div>
+      <div class="field">
+        <div class="label">Email</div>
+        <input type="email" id="email" required />
+      </div>
+      <div class="field">
+        <div class="label">Senha</div>
+        <input type="password" id="login-pass" placeholder="Senha" required />
+      </div>
+
+      <div class="title">Instituição:</div>
+      <div class="field">
+        <div class="label">Instituição de ensino</div>
+        <input type="text" id="instituicao" required />
+      </div>
+      <div class="field">
+        <div class="label">Curso</div>
+        <input type="text" id="curso" required />
+      </div>
+
+      <div class="title">Endereço:</div>
+      <div class="field">
+        <div class="label">Endereço</div>
+        <input type="text" id="endereco" required />
+      </div>
+
+      <div class="title">Documentos:</div>
+      <div class="field">
+        <div class="label">CPF</div>
+        <input type="text" class="input-cpf" id="cpf" required />
+      </div>
+      <div class="field">
+        <div class="label">RG</div>
+        <input type="text" id="rg" required />
+      </div>
+
+      <div class="field btns">
+        <button type="submit" class="submit">Enviar</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="/implementacao/front/cadastroAluno/cadastroAluno.js"></script>
+
+</body>
+</html>

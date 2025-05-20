@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Extrato de Moedas</title>
+  <link rel="stylesheet" href="/implementacao/front/extratoUsuario/extratoUsuario.css">
+</head>
+<body>
+  <div class="container">
+    <header>Extrato de Moedas</header>
+    
+    <div class="field">
+      <label for="userId">ID do Usuário</label>
+      <input type="text" id="userId" placeholder="Digite o ID do usuário" required>
+    </div>
+    
+    <div class="field btns">
+      <button onclick="buscarExtrato()" class="submit">Buscar Extrato</button>
+    </div>
+
+    <div class="extrato-container">
+      <ul id="extratoList"></ul>
+    </div>
+  </div>
+  
+  <script src="/implementacao/front/extratoUsuario/extraoUsuario.js"></script>
+</body>
+</html>

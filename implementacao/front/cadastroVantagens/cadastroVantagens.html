@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Vantagens</title>
+  <link rel="stylesheet" href="/implementacao/front/cadastroVantagens/cadastroVantagens.css">
+</head>
+<body>
+  <div class="container">
+    <header>Cadastro de Vantagens</header>
+    <div class="form-outer">
+      <form id="cadastroVantagensForm">
+        <div class="page">
+          <div class="field">
+            <label for="empresaId">ID da Empresa</label>
+            <input type="text" id="empresaId" required>
+          </div>
+          <div class="field">
+            <label for="descricao">Nome da Vantagem</label>
+            <textarea id="descricao"  placeholder="Digite o nome e descreva a vantagem" required></textarea>
+          </div>
+          <div class="field">
+            <label for="custo">Custo em Moedas</label>
+            <input type="number" id="custo" min="1" placeholder="Digite o custo em moedas" required>
+          </div>
+          <div class="field">
+            <label for="imagemUrl">URL da Imagem</label>
+            <input type="text" id="imagemUrl" placeholder="Digite a URL da imagem" required>
+          </div>
+          <div class="field btns">
+            <button type="submit" class="submit">Cadastrar Vantagem</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="/implementacao/front/cadastroVantagens/cadastroVantagens.js"></script>
+</body>
+</html>

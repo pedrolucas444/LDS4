@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+header {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.field label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #555;
+}
+
+.field input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease;
+}
+
+.field input:focus {
+  border: 1px solid #007bff;
+  background-color: #fff;
+  outline: none;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+}
+
+.submit {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #005ecb;
+}
+
+.extrato-container {
+  margin-top: 30px;
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+#extratoList {
+  list-style: none;
+}
+
+#extratoList li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 0.95rem;
+}
