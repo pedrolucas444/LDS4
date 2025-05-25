@@ -1,7 +1,8 @@
 package br.com.lsd.backlds3.models;
 
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,8 +23,7 @@ public class Empresa {
 
     private String cnpj;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Vantagem> vantagens;
-
 }

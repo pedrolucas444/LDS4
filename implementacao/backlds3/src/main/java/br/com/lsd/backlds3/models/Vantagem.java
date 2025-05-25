@@ -1,5 +1,7 @@
 package br.com.lsd.backlds3.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +21,7 @@ public class Vantagem {
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")
+    @JsonBackReference
     private Empresa empresa;
 
     public String gerarCodigoResgate() {
