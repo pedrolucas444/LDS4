@@ -1,0 +1,39 @@
+@startuml
+actor Aluno as A
+actor EmpresaParceira as EP
+participant "Front-End" as FE
+participant "Back-End" as BE
+participant "Banco de Dados" as DB
+
+== Cadastro de Vantagens (Empresa Parceira) ==
+EP -> FE: Acessa página de cadastro de vantagens
+activate FE
+FE -> EP: Exibe formulário de cadastro de vantagens
+deactivate FE
+EP -> FE: Preenche dados da vantagem e envia
+activate FE
+FE -> BE: POST /api/vantagens (dados da vantagem)
+activate BE
+BE -> DB: Salva dados da vantagem
+activate DB
+DB --> BE: Confirmação de sucesso
+deactivate DB
+BE --> FE: Confirmação de cadastro
+deactivate BE
+FE --> EP: Exibe mensagem de sucesso
+deactivate FE
+
+== Listagem de Vantagens (Aluno) ==
+A -> FE: Acessa página de listagem de vantagens
+activate FE
+FE -> BE: GET /api/vantagens
+activate BE
+BE -> DB: Consulta lista de vantagens
+activate DB
+DB --> BE: Retorna lista de vantagens
+deactivate DB
+BE --> FE: Retorna dados das vantagens
+deactivate BE
+FE -> A: Exibe lista de vantagens
+deactivate FE
+@enduml
