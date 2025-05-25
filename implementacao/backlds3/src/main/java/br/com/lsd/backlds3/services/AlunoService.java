@@ -28,6 +28,11 @@ public class AlunoService {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
+    public Optional<Aluno> findByEmail(String email) {
+    return alunoRepository.findByEmail(email);
+    }
+
+
     public Aluno createAluno(Aluno aluno) {
         return alunoRepository.save(aluno);
     }

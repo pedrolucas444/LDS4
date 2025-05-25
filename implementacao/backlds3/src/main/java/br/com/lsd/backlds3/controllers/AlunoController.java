@@ -1,6 +1,7 @@
 package br.com.lsd.backlds3.controllers;
 
 import br.com.lsd.backlds3.DTOs.ExtratoAlunoDTO;
+import br.com.lsd.backlds3.DTOs.LoginDTO;
 import br.com.lsd.backlds3.models.Aluno;
 import br.com.lsd.backlds3.services.AlunoService;
 
@@ -8,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +21,20 @@ public class AlunoController {
     @Autowired
     private AlunoService alunoService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        Optional<Aluno> alunoOpt = alunoService.findByEmail(loginDTO.getEmail());
+
+        if (alunoOpt.isPresent()) {
+            Aluno aluno = alunoOpt.get();
+            if (aluno.getSenha() != null && aluno.getSenha().equals(loginDTO.getSenha())) {
+                return ResponseEntity.ok(aluno); // ou envie dados limitados
+            }
+        }
+
+        return ResponseEntity.status(401).body("Email ou senha inválidos");
+    }
+
     @Operation(description = "Cria um aluno")
     @PostMapping
     public Aluno createAluno(@RequestBody Aluno aluno) {
@@ -33,11 +45,7 @@ public class AlunoController {
     @GetMapping("/{id}")
     public ResponseEntity<Aluno> getAlunoById(@PathVariable Long id) {
         Optional<Aluno> alunoOptional = alunoService.getAlunoById(id);
-        if (alunoOptional.isPresent()) {
-            return ResponseEntity.ok(alunoOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return alunoOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Operation(description = "Retorna todos os alunos")
@@ -77,7 +85,5 @@ public class AlunoController {
         } catch (Exception e) {
             return ResponseEntity.unprocessableEntity().body(e.getMessage());
         }
-
     }
-
 }

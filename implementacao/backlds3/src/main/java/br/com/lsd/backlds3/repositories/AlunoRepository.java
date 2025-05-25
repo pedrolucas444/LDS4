@@ -9,3 +9,6 @@ import br.com.lsd.backlds3.models.Aluno;
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
 }
+
+Optional<Aluno> findByEmail(String email);
+
