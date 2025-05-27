@@ -28,8 +28,8 @@ public class AlunoService {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
-    public Optional<Aluno> findByEmail(String email) {
-    return alunoRepository.findByEmail(email);
+    public Aluno findByCpf(String cpf) {
+    return alunoRepository.findByCpf(cpf);
     }
 
 

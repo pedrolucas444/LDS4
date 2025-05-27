@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- DASHBOARD ALUNO -->
+  <div id="dashboardAluno" class="dashboard hidden">
+    <h1>Bem-vindo, Aluno</h1>
+    <section>
+      <h2>Perfil</h2>
+      <p id="alunoPerfil">Nome: ...<br>Email: ...</p>
+    </section>
+
+    <section>
+      <h2>Saldo de Moedas</h2>
+      <p id="alunoSaldo">...</p>
+    </section>
+
+    <section>
+      <h2>Extrato de Transações</h2>
+      <ul id="alunoExtrato"></ul>
+    </section>
+
+    <section>
+      <h2>Resgatar Vantagem</h2>
+      <select id="vantagensDisponiveis"></select>
+      <button onclick="resgatarVantagem()">Resgatar</button>
+    </section>
+  </div>
+
+  <!-- DASHBOARD PROFESSOR -->
+  <div id="dashboardProfessor" class="dashboard hidden">
+    <h1>Bem-vindo, Professor</h1>
+    <section>
+      <h2>Perfil</h2>
+      <p id="professorPerfil">Nome: ...<br>Email: ...</p>
+    </section>
+
+    <section>
+      <h2>Saldo de Moedas</h2>
+      <p id="professorSaldo">...</p>
+    </section>
+
+    <section>
+      <h2>Histórico de Envio de Moedas</h2>
+      <ul id="professorExtrato"></ul>
+    </section>
+
+    <section>
+      <h2>Enviar Moedas</h2>
+      <label for="destinatario">Aluno:</label>
+      <select id="destinatario"></select><br>
+
+      <label for="quantidade">Quantidade:</label>
+      <input type="number" id="quantidade" min="1"><br>
+
+      <label for="mensagem">Motivo:</label>
+      <textarea id="mensagem" required></textarea><br>
+
+      <button onclick="enviarMoedas()">Enviar</button>
+    </section>
+  </div>
+
+  <!-- DASHBOARD EMPRESA -->
+  <div id="dashboardEmpresa" class="dashboard hidden">
+    <h1>Bem-vindo, Empresa</h1>
+    <section>
+      <h2>Perfil</h2>
+      <p id="empresaPerfil">Nome: ...<br>CNPJ: ...</p>
+    </section>
+
+    <section>
+      <h2>Vantagens Ofertadas</h2>
+      <ul id="empresaVantagens"></ul>
+    </section>
+
+    <section>
+      <h2>Cadastrar Nova Vantagem</h2>
+      <label for="nomeVantagem">Nome:</label>
+      <input type="text" id="nomeVantagem"><br>
+
+      <label for="custoMoeda">Custo em Moedas:</label>
+      <input type="number" id="custoMoeda" min="1"><br>
+
+      <button onclick="cadastrarVantagem()">Cadastrar</button>
+    </section>
+  </div>
+
+  <script src="dashboard.js"></script> 
+</body>
+</html>

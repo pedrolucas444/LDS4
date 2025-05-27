@@ -1,20 +1,16 @@
 document.getElementById("tipoUsuario").addEventListener("change", function () {
   const tipo = this.value;
-  const label = document.querySelector("label[for='email']");
-  const input = document.getElementById("email");
+  const label = document.querySelector("label[for='cpf']");
+  const input = document.getElementById("cpf");
 
   if (tipo === "empresa") {
     label.textContent = "CNPJ";
-    input.type = "text";
     input.placeholder = "00.000.000/0001-00";
-  } else if (tipo === "aluno" || tipo === "professor") {
-    label.textContent = "CPF";
-    input.type = "text";
-    input.placeholder = "000.000.000-00";
+    $(input).mask('00.000.000/0000-00');
   } else {
-    label.textContent = "Identificador";
-    input.type = "text";
-    input.placeholder = "";
+    label.textContent = "CPF";
+    input.placeholder = "000.000.000-00";
+    $(input).mask('000.000.000-00');
   }
 });
 
@@ -22,7 +18,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   const tipoUsuario = document.getElementById("tipoUsuario").value;
-  const identificador = document.getElementById("email").value;
+  const identificador = document.getElementById("cpf").value;
   const senha = document.getElementById("password").value;
 
   const data = {
