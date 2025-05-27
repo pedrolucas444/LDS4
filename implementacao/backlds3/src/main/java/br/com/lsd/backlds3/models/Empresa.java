@@ -1,5 +1,6 @@
 package br.com.lsd.backlds3.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -17,13 +18,13 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String email;
-    private String senha;
-
     private String cnpj;
+    private String nome;
+    private String senha;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Vantagem> vantagens;
+    @ToString.Exclude
+    private List<Vantagem> vantagens = new ArrayList<>();
 }
+

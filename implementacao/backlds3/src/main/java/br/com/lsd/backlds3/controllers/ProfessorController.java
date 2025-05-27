@@ -6,14 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.lsd.backlds3.DTOs.ExtratoProfessorDTO;
+import br.com.lsd.backlds3.DTOs.LoginDTO;
 import br.com.lsd.backlds3.models.Professor;
+import br.com.lsd.backlds3.repositories.ProfessorRepository;
 import br.com.lsd.backlds3.services.ProfessorService;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("api/professores")
@@ -21,6 +19,19 @@ public class ProfessorController {
 
     @Autowired
     private ProfessorService professorService;
+    @Autowired
+    private ProfessorRepository professorRepository;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        Professor prof = professorRepository.findByCpf(loginDTO.getIdentificador());
+
+        if (prof == null || !prof.getSenha().equals(loginDTO.getSenha())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("CPF ou senha inválidos");
+        }
+
+        return ResponseEntity.ok(prof);
+    }
 
     @GetMapping
     public List<Professor> listarTodos() {

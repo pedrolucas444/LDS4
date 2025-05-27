@@ -16,7 +16,7 @@ function initEmpresaForm() {
 
     console.log("Dados da empresa:", data);
 
-    fetch("http://localhost:8080/api/empresas", {
+    fetch("http://localhost:8080/api/empresa", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

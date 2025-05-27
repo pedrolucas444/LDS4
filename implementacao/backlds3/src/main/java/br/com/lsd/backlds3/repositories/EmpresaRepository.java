@@ -7,5 +7,5 @@ import br.com.lsd.backlds3.models.Empresa;
 
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
-
+    Empresa findByCnpj(String cnpj);
 }

@@ -3,9 +3,11 @@ package br.com.lsd.backlds3.controllers;
 import br.com.lsd.backlds3.DTOs.ExtratoAlunoDTO;
 import br.com.lsd.backlds3.DTOs.LoginDTO;
 import br.com.lsd.backlds3.models.Aluno;
+import br.com.lsd.backlds3.repositories.AlunoRepository;
 import br.com.lsd.backlds3.services.AlunoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,21 +21,20 @@ import java.util.Random;
 @RequestMapping("/api/alunos")
 public class AlunoController {
 
+   @Autowired
+    private AlunoRepository alunoRepository;
     @Autowired
     private AlunoService alunoService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        Optional<Aluno> alunoOpt = alunoService.findByEmail(loginDTO.getEmail());
+        Aluno aluno = alunoRepository.findByCpf(loginDTO.getIdentificador());
 
-        if (alunoOpt.isPresent()) {
-            Aluno aluno = alunoOpt.get();
-            if (aluno.getSenha() != null && aluno.getSenha().equals(loginDTO.getSenha())) {
-                return ResponseEntity.ok(aluno); // ou envie dados limitados
-            }
+        if (aluno == null || !aluno.getSenha().equals(loginDTO.getSenha())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("CPF ou senha inválidos");
         }
 
-        return ResponseEntity.status(401).body("Email ou senha inválidos");
+        return ResponseEntity.ok(aluno); // ou gerar um token JWT
     }
 
     @Operation(description = "Cria um aluno")
