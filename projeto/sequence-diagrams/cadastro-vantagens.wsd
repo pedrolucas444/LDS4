@@ -1,0 +1,44 @@
+@startuml
+actor EmpresaParceira as EP
+participant "Front-End" as FE
+participant "VantagemController" as VC
+participant "VantagemService" as VS
+participant "VantagemRepository" as VR
+participant "Banco de Dados" as DB
+
+== Cadastro de Vantagens ==
+
+EP -> FE: Acessa página de cadastro
+activate FE
+FE -> EP: Exibe formulário
+deactivate FE
+
+EP -> FE: Preenche dados e envia
+activate FE
+FE -> VC: POST /api/vantagens (Vantagem JSON)
+activate VC
+
+VC -> VS: createVantagem(Vantagem)
+activate VS
+
+VS -> VR: save(Vantagem)
+activate VR
+
+VR -> DB: INSERT INTO vantagem (...)
+activate DB
+DB --> VR: Entidade salva
+deactivate DB
+
+VR --> VS: Vantagem com ID
+deactivate VR
+
+VS --> VC: Vantagem salva
+deactivate VS
+
+VC --> FE: HTTP 201 Created + JSON da vantagem
+deactivate VC
+
+FE -> EP: Exibe mensagem de sucesso
+deactivate FE
+
+@enduml

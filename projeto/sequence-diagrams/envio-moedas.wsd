@@ -1,0 +1,66 @@
+@startuml
+actor Professor as P
+participant "Front-End" as FE
+participant "TransacaoController" as TC
+participant "TransacaoService" as TS
+participant "ProfessorRepository" as PR
+participant "AlunoRepository" as AR
+participant "TransacaoRepository" as TR
+participant "Banco de Dados" as DB
+
+== Envio de Moedas ==
+
+P -> FE: Acessa página de envio de moedas
+activate FE
+FE -> P: Exibe formulário de envio
+deactivate FE
+
+P -> FE: Preenche dados e envia
+activate FE
+FE -> TC: POST /api/enviarMoedas (alunoId, qtd, motivo)
+activate TC
+
+TC -> TS: enviarMoedas(alunoId, qtd, motivo, professorId)
+activate TS
+
+TS -> PR: findById(professorId)
+activate PR
+PR -> DB: SELECT * FROM professor WHERE id = ?
+DB --> PR: Professor
+deactivate PR
+
+TS -> AR: findById(alunoId)
+activate AR
+AR -> DB: SELECT * FROM aluno WHERE id = ?
+DB --> AR: Aluno
+deactivate AR
+
+TS -> TS: Verifica se professor tem saldo suficiente
+
+alt saldo suficiente
+    TS -> TR: save(transacao)
+    activate TR
+    TR -> DB: INSERT INTO transacao (...)
+    DB --> TR: Transação registrada
+    deactivate TR
+
+    TS -> PR: Atualiza saldo do professor
+    PR -> DB: UPDATE professor SET saldo = ...
+    DB --> PR: OK
+
+    TS -> AR: Atualiza saldo do aluno
+    AR -> DB: UPDATE aluno SET saldo = ...
+    DB --> AR: OK
+
+    TS --> TC: Confirmação de envio
+else saldo insuficiente
+    TS --> TC: Erro: saldo insuficiente
+end
+deactivate TS
+
+TC --> FE: Retorna confirmação ou erro
+deactivate TC
+
+FE -> P: Exibe mensagem na tela
+deactivate FE
+@enduml
