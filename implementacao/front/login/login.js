@@ -51,9 +51,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     .then(data => {
       console.log("Login realizado com sucesso:", data);
       alert("Login bem-sucedido!");
-
-      // Redirecionar para a dashboard do usuário
-      // window.location.href = `/painel-${tipoUsuario}.html`;
+      window.location.href = "http://127.0.0.1:5500/implementacao/front/telainicial/telaInicial.html"; // ou ajuste o caminho se for diferente
     })
     .catch(error => {
       console.error("Erro:", error);

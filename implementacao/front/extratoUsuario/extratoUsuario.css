@@ -94,3 +94,16 @@ header {
   color: #333;
   font-size: 0.95rem;
 }
+
+    .voltar {
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      font-size: 40px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .voltar:hover {
+      color: #007BFF;
+    }

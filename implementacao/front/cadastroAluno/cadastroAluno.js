@@ -1,7 +1,7 @@
 function initMultiStepForm() {
     const submitBtn = document.querySelector(".submit");
 
-    submitBtn.addEventListener("click", function(event) {
+    submitBtn.addEventListener("click", function (event) {
         event.preventDefault();
 
         const nome = document.getElementById("nome").value.trim();
@@ -33,29 +33,38 @@ function initMultiStepForm() {
             },
             body: JSON.stringify(data)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao enviar dados');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert("Cadastro realizado com sucesso!");
-            console.log('Success:', data);
-            // Redirecionar ou limpar campos se necessário
-        })
-        .catch(error => {
-            alert("Ocorreu um erro ao cadastrar.");
-            console.error('Erro:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar dados');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Cadastro realizado com sucesso:', data);
+                // Redirecionar para a página de login
+                window.location.href = "http://127.0.0.1:5500/implementacao/front/login/login.html"; // ou ajuste o caminho se for diferente
+            })
+            .catch(error => {
+                alert("Ocorreu um erro ao cadastrar.");
+                console.error('Erro:', error);
+            });
     });
 }
 
-window.onload = function() {
-    initMultiStepForm();
-};
+// Máscara de CPF sem jQuery
+function aplicarMascaraCPF(input) {
+    input.addEventListener("input", () => {
+        let valor = input.value.replace(/\D/g, "");
+        if (valor.length > 11) valor = valor.slice(0, 11);
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        input.value = valor;
+    });
+}
 
-// Máscara de CPF
-$(document).ready(function(){
-    $(".input-cpf").mask("000.000.000-00");
-});
+window.onload = function () {
+    initMultiStepForm();
+    const cpfInput = document.querySelector(".input-cpf");
+    aplicarMascaraCPF(cpfInput);
+};
