@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Envio de Moedas</title>
+  <link rel="stylesheet" href="/implementacao/front/envioMoedas/envio-moedas.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Envio de Moedas</h2>
+  
+  <form id="moedasForm">
+    <label for="aluno">Aluno</label>
+    <input type="text" id="aluno" name="aluno" placeholder="Digite o ID do aluno" required />
+
+    <label for="quantidade">Quantidade de Moedas</label>
+    <input type="number" id="quantidade" name="quantidade" min="1" required placeholder="Digite a quantidade"/>
+
+    <label for="motivo">Motivo do Reconhecimento</label>
+    <textarea id="motivo" name="motivo" rows="4" placeholder="Descreva o motivo..." required></textarea>
+
+    <div class="error" id="erroMsg"></div>
+
+    <button type="submit">Enviar Moedas</button>
+  </form>
+</div>
+  <script src="/implementacao/front/envioMoedas/envio-moedas.js"></script>
+</body>
+</html>
