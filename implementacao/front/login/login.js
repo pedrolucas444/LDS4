@@ -21,10 +21,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   const identificador = document.getElementById("cpf").value;
   const senha = document.getElementById("password").value;
 
-  const data = {
-    identificador,
-    senha
-  };
+  const data = { identificador, senha };
 
   let url;
   if (tipoUsuario === "aluno") {
@@ -50,8 +47,19 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     })
     .then(data => {
       console.log("Login realizado com sucesso:", data);
+
+      // Armazenar o tipo e nome do usuário
+      localStorage.setItem("tipo", tipoUsuario);
+
+      // Aqui depende do campo de nome retornado pela sua API
+      if (tipoUsuario === "aluno" || tipoUsuario === "professor") {
+        localStorage.setItem("nome", data.nome); 
+      } else if (tipoUsuario === "empresa") {
+        localStorage.setItem("nome", data.nome); 
+      }
+
       alert("Login bem-sucedido!");
-      window.location.href = "http://127.0.0.1:5500/implementacao/front/telainicial/telaInicial.html"; // ou ajuste o caminho se for diferente
+      window.location.href = "http://127.0.0.1:5500/implementacao/front/telainicial/telaInicial.html";
     })
     .catch(error => {
       console.error("Erro:", error);

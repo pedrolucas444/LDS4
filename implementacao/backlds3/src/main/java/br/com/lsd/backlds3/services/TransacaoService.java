@@ -1,5 +1,11 @@
 package br.com.lsd.backlds3.services;
 
+import br.com.lsd.backlds3.DTOs.AlunoResumoDTO;
+import br.com.lsd.backlds3.DTOs.ExtratoAlunoDTO;
+import br.com.lsd.backlds3.DTOs.ExtratoProfessorDTO;
+import br.com.lsd.backlds3.DTOs.ProfessorResumoDTO;
+import br.com.lsd.backlds3.DTOs.TransacaoAlunoDTO;
+import br.com.lsd.backlds3.DTOs.TransacaoProfessorDTO;
 import br.com.lsd.backlds3.models.Transacao;
 import br.com.lsd.backlds3.repositories.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransacaoService {
@@ -47,4 +54,38 @@ public class TransacaoService {
                 })
                 .orElse(false);
     }
+
+    public ExtratoAlunoDTO getExtratoAluno(Long alunoId) {
+    List<Transacao> transacoes = transacaoRepository.findByAlunoId(alunoId);
+
+    List<TransacaoAlunoDTO> dtoList = transacoes.stream().map(transacao -> {
+        return new TransacaoAlunoDTO(
+            transacao.getId(),
+            transacao.getTipo(),
+            transacao.getMontante(),
+            transacao.getData(),
+            new ProfessorResumoDTO(transacao.getProfessor().getId(), transacao.getProfessor().getNome()),
+            transacao.getEmpresa()
+        );
+    }).toList();
+
+    int saldo = transacoes.stream().mapToInt(Transacao::getMontante).sum();
+    return new ExtratoAlunoDTO(saldo, dtoList);
+}
+    public ExtratoProfessorDTO getExtratoProfessor(Long professorId) {
+    List<Transacao> transacoes = transacaoRepository.findByProfessorId(professorId);
+
+    List<TransacaoProfessorDTO> dtoList = transacoes.stream().map(transacao -> {
+        return new TransacaoProfessorDTO(
+            transacao.getId(),
+            transacao.getTipo(),
+            transacao.getMontante(),
+            transacao.getData(),
+            new AlunoResumoDTO(transacao.getAluno().getId(), transacao.getAluno().getNome())
+        );
+    }).toList();
+
+    int saldo = transacoes.stream().mapToInt(Transacao::getMontante).sum();
+    return new ExtratoProfessorDTO(saldo, dtoList);
+}
 }

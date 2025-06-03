@@ -1,43 +1,34 @@
-document.getElementById("btnConsultar").addEventListener("click", () => {
-  const tipo = document.getElementById("tipoUsuario").value;
-  const nome = document.getElementById("nomeUsuario").value.trim();
+document.addEventListener("DOMContentLoaded", async () => {
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  const { tipo, dados } = usuarioLogado;
+  const userId = dados.id;
+
   const saldoEl = document.getElementById("saldo");
   const tabela = document.getElementById("tabelaTransacoes");
 
-  if (!nome) {
-    alert("Por favor, insira o nome do usuário.");
-    return;
+  try {
+    const response = await fetch(`http://localhost:8080/api/transacoes/extrato/${tipo}/${userId}`);
+
+    if (!response.ok) {
+      throw new Error("Erro ao carregar extrato");
+    }
+
+    const extrato = await response.json();
+    saldoEl.textContent = extrato.saldoMoedas;
+    tabela.innerHTML = "";
+
+    extrato.transacoes.forEach(t => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${new Date(t.data).toLocaleDateString("pt-BR")}</td>
+        <td>${t.tipo}</td>
+        <td>${t.montante > 0 ? "+" : ""}${t.montante}</td>
+      `;
+      tabela.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Erro ao carregar extrato:", error);
+    alert("Não foi possível carregar o extrato.");
   }
-
-  // Simulação de dados
-  const transacoesExemplo = {
-    aluno: [
-      { data: "2025-05-01", descricao: "Recebimento de moedas do Professor João", quantidade: 30 },
-      { data: "2025-05-10", descricao: "Troca por desconto na livraria", quantidade: -20 },
-      { data: "2025-05-15", descricao: "Recebimento de moedas do Professor Ana", quantidade: 15 }
-    ],
-    professor: [
-      { data: "2025-05-01", descricao: "Enviado para Maria", quantidade: -30 },
-      { data: "2025-05-10", descricao: "Enviado para Lucas", quantidade: -20 },
-      { data: "2025-05-15", descricao: "Enviado para Ana", quantidade: -15 }
-    ]
-  };
-
-  const transacoes = transacoesExemplo[tipo];
-  const saldoAtual = transacoes.reduce((total, t) => total + t.quantidade, 0);
-
-  saldoEl.textContent = saldoAtual;
-
-  // Limpar tabela
-  tabela.innerHTML = "";
-
-  transacoes.forEach(t => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${t.data}</td>
-      <td>${t.descricao}</td>
-      <td>${t.quantidade > 0 ? "+" : ""}${t.quantidade}</td>
-    `;
-    tabela.appendChild(row);
-  });
 });

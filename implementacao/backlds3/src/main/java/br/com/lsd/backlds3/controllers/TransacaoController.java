@@ -1,5 +1,7 @@
 package br.com.lsd.backlds3.controllers;
 
+import br.com.lsd.backlds3.DTOs.ExtratoAlunoDTO;
+import br.com.lsd.backlds3.DTOs.ExtratoProfessorDTO;
 import br.com.lsd.backlds3.models.Transacao;
 import br.com.lsd.backlds3.services.TransacaoService;
 
@@ -52,4 +54,15 @@ public class TransacaoController {
         boolean deleted = transacaoService.delete(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/extrato/aluno/{id}")
+    public ResponseEntity<ExtratoAlunoDTO> getExtratoAluno(@PathVariable Long id) {
+        return ResponseEntity.ok(transacaoService.getExtratoAluno(id));
+    }
+
+    @GetMapping("/extrato/professor/{id}")
+    public ResponseEntity<ExtratoProfessorDTO> getExtratoProfessor(@PathVariable Long id) {
+        return ResponseEntity.ok(transacaoService.getExtratoProfessor(id));
+}
+
 }

@@ -21,6 +21,7 @@ public class Empresa {
     private String cnpj;
     private String nome;
     private String senha;
+    private String email;
 
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
