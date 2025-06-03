@@ -68,15 +68,19 @@ public class ProfessorController {
     }
 
     @PostMapping("/{professorId}/enviar-moedas/{alunoId}")
-    public ResponseEntity<String> enviarMoedas(@PathVariable Long professorId, @PathVariable Long alunoId,
-            @RequestParam int montante, @RequestParam String motivo) {
-        try {
-            professorService.enviarMoedas(professorId, alunoId, montante, motivo);
-            return ResponseEntity.ok("Moedas enviadas com sucesso!");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+public ResponseEntity<ExtratoProfessorDTO> enviarMoedas(@PathVariable Long professorId,
+                                                        @PathVariable Long alunoId,
+                                                        @RequestParam int montante,
+                                                        @RequestParam String motivo) {
+    try {
+        professorService.enviarMoedas(professorId, alunoId, montante, motivo);
+        ExtratoProfessorDTO extrato = professorService.consultarExtrato(professorId);
+        return ResponseEntity.ok(extrato);
+    } catch (RuntimeException e) {
+        return ResponseEntity.badRequest().build();
     }
+}
+
 
     @GetMapping("/{id}/extrato")
     public ResponseEntity<ExtratoProfessorDTO> consultarExtrato(@PathVariable Long id) {

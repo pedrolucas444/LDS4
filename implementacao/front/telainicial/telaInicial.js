@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Suponha que tipo e nome do usuário foram armazenados no login
-  const tipoUsuario = localStorage.getItem("tipo"); // "aluno", "professor", "empresa"
-  const nomeUsuario = localStorage.getItem("nome");
+  const usuarioLogadoJSON = localStorage.getItem("usuarioLogado");
+   if (!usuarioLogadoJSON) {
+    alert("Você não está logado. Redirecionando para a tela de login.");
+    window.location.href = "../login/login.html"; // ajuste o caminho se necessário
+    return;
+  }
+  const usuarioLogado = JSON.parse(usuarioLogadoJSON);
+  const tipoUsuario = usuarioLogado.tipo;
+  const nomeUsuario = usuarioLogado.dados.nome;
 
   const welcomeMsg = document.getElementById("welcomeMsg");
   welcomeMsg.textContent = `Bem-vindo, ${nomeUsuario}!`;

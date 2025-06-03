@@ -13,7 +13,10 @@
   
   <form id="moedasForm">
     <label for="aluno">Aluno</label>
-    <input type="text" id="aluno" name="aluno" placeholder="Digite o ID do aluno" required />
+    <select id="aluno" name="aluno" required>
+      <option value="">Selecione um aluno</option>
+      <!-- Alunos serão inseridos via JS -->
+    </select>
 
     <label for="quantidade">Quantidade de Moedas</label>
     <input type="number" id="quantidade" name="quantidade" min="1" required placeholder="Digite a quantidade"/>

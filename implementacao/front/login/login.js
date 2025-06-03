@@ -47,16 +47,12 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     })
     .then(data => {
       console.log("Login realizado com sucesso:", data);
+      const usuarioLogado = {
+    tipo: tipoUsuario,
+    dados: data  // deve conter pelo menos `id` e `nome`
+  };
 
-      // Armazenar o tipo e nome do usuário
-      localStorage.setItem("tipo", tipoUsuario);
-
-      // Aqui depende do campo de nome retornado pela sua API
-      if (tipoUsuario === "aluno" || tipoUsuario === "professor") {
-        localStorage.setItem("nome", data.nome); 
-      } else if (tipoUsuario === "empresa") {
-        localStorage.setItem("nome", data.nome); 
-      }
+  localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
 
       alert("Login bem-sucedido!");
       window.location.href = "http://127.0.0.1:5500/implementacao/front/telainicial/telaInicial.html";
