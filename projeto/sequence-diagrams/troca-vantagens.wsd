@@ -1,0 +1,70 @@
+@startuml
+actor Aluno as A
+participant "Front-End" as FE
+participant "TrocaController" as TC
+participant "TrocaService" as TS
+participant "VantagemRepository" as VR
+participant "AlunoRepository" as AR
+participant "TransacaoRepository" as TR
+participant "Banco de Dados" as DB
+
+== Troca de Vantagens ==
+
+A -> FE: Seleciona vantagem para troca
+activate FE
+
+FE -> TC: POST /api/trocas {vantagemId}
+activate TC
+
+TC -> TS: solicitarTroca(vantagemId, alunoId)
+activate TS
+
+TS -> AR: findById(alunoId)
+activate AR
+AR -> DB: SELECT * FROM aluno WHERE id = ?
+activate DB
+DB --> AR: Dados do Aluno
+deactivate DB
+AR --> TS: Aluno
+deactivate AR
+
+TS -> VR: findById(vantagemId)
+activate VR
+VR -> DB: SELECT * FROM vantagem WHERE id = ?
+activate DB
+DB --> VR: Dados da Vantagem
+deactivate DB
+VR --> TS: Vantagem
+deactivate VR
+
+alt Saldo suficiente
+    TS -> TR: createTransacao(alunoId, vantagemId)
+    activate TR
+    TR -> DB: INSERT INTO transacao (...)
+    activate DB
+    DB --> TR: Transação criada
+    deactivate DB
+    TR --> TS: Transação
+    deactivate TR
+    
+    TS -> AR: atualizarSaldo(alunoId, novoSaldo)
+    activate AR
+    AR -> DB: UPDATE aluno SET saldo = ? WHERE id = ?
+    activate DB
+    DB --> AR: Saldo atualizado
+    deactivate DB
+    AR --> TS: void
+    deactivate AR
+    
+    TS --> TC: Troca realizada com sucesso
+else Saldo insuficiente
+    TS --> TC: Erro - Saldo insuficiente
+end
+deactivate TS
+
+TC --> FE: HTTP 200 OK ou HTTP 400 Bad Request
+deactivate TC
+
+FE -> A: Exibe resultado da operação
+deactivate FE
+@enduml
