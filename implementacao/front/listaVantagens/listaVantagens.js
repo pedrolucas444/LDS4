@@ -1,15 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   fetchVantagens();
 
-  document.getElementById("confirmButton").addEventListener("click", () => {
-    const alunoId = document.getElementById("alunoId").value;
-    if (!alunoId) {
+  const confirmButton = document.getElementById("confirmButton");
+  const alunoIdInput = document.getElementById("alunoId");
+  const alunoId = localStorage.getItem("alunoId");
+
+  // Oculta o input de ID do aluno se já tiver no localStorage
+  if (alunoId) {
+    alunoIdInput.style.display = "none";
+    alunoIdInput.value = alunoId;
+  }
+
+  confirmButton.addEventListener("click", () => {
+    const localAlunoId = localStorage.getItem("alunoId");
+    const inputAlunoId = alunoIdInput.value;
+    const finalAlunoId = localAlunoId || inputAlunoId;
+
+    if (!finalAlunoId) {
       alert("Digite o ID do aluno.");
       return;
     }
 
     if (resgatandoVantagemId !== null) {
-      resgatarVantagem(alunoId, resgatandoVantagemId);
+      resgatarVantagem(finalAlunoId, resgatandoVantagemId);
     }
   });
 });
@@ -27,11 +40,10 @@ function fetchVantagens() {
         const li = document.createElement("li");
         li.innerHTML = `
           <div>
-            <strong>${vantagem.descricao}</strong> - ${vantagem.custo} moedas
+            <strong>${vantagem.descricao}</strong> - ${vantagem.valor} moedas
           </div>
-          <button onclick="openModal(${vantagem.id})">
-            Resgatar
-          </button>
+          <button onclick="openModal(${vantagem.id})">Resgatar</button>
+          <button onclick="trocarVantagem(${vantagem.id})">Trocar</button>
         `;
         ul.appendChild(li);
       });
@@ -44,7 +56,17 @@ function fetchVantagens() {
 
 function openModal(vantagemId) {
   resgatandoVantagemId = vantagemId;
-  document.getElementById("alunoId").value = "";
+  const alunoId = localStorage.getItem("alunoId");
+  const input = document.getElementById("alunoId");
+
+  if (alunoId) {
+    input.value = alunoId;
+    input.style.display = "none";
+  } else {
+    input.value = "";
+    input.style.display = "block";
+  }
+
   document.getElementById("modal").style.display = "block";
 }
 
@@ -54,25 +76,46 @@ function closeModal() {
 }
 
 function resgatarVantagem(alunoId, vantagemId) {
-  fetch("http://localhost:8080/api/resgatar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ alunoId, vantagemId }),
+  fetch(`http://localhost:8080/api/trocas/${vantagemId}?alunoId=${alunoId}`, {
+    method: "POST"
   })
     .then((res) => {
       if (!res.ok) {
-        throw new Error("Erro ao resgatar vantagem");
+        return res.text().then(msg => {
+          throw new Error(msg || "Erro ao resgatar vantagem");
+        });
       }
-      return res.json();
-    })
-    .then(() => {
       alert("Vantagem resgatada com sucesso!");
       closeModal();
     })
     .catch((err) => {
       console.error(err);
-      alert("Erro ao resgatar a vantagem.");
+      alert("Erro: " + err.message);
+    });
+}
+
+function trocarVantagem(vantagemId) {
+  const alunoId = localStorage.getItem("alunoId");
+
+  if (!alunoId) {
+    alert("Aluno não está logado.");
+    return;
+  }
+
+  fetch(`http://localhost:8080/api/trocas/${vantagemId}?alunoId=${alunoId}`, {
+    method: "POST"
+  })
+    .then((res) => {
+      if (!res.ok) {
+        return res.text().then(msg => {
+          throw new Error(msg || "Erro ao trocar vantagem");
+        });
+      }
+      alert("Troca realizada com sucesso!");
+      fetchVantagens(); // Atualiza a lista se necessário
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Erro: " + err.message);
     });
 }

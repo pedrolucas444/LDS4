@@ -48,11 +48,15 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     .then(data => {
       console.log("Login realizado com sucesso:", data);
       const usuarioLogado = {
-    tipo: tipoUsuario,
-    dados: data  // deve conter pelo menos `id` e `nome`
-  };
+        tipo: tipoUsuario,
+        dados: data // deve conter pelo menos `id` e `nome`
+      };
 
-  localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+      localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+
+      if (tipoUsuario === "aluno") {
+        localStorage.setItem("alunoId", data.id);
+      }
 
       alert("Login bem-sucedido!");
       window.location.href = "http://127.0.0.1:5500/implementacao/front/telainicial/telaInicial.html";

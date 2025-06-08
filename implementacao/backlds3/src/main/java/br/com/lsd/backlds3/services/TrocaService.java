@@ -25,21 +25,20 @@ public class TrocaService {
 
     public void solicitarTroca(Long vantagemId, Long alunoId) {
         Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado com ID: " + alunoId));
+                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
 
         Vantagem vantagem = vantagemRepository.findById(vantagemId)
-                .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada com ID: " + vantagemId));
+                .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada"));
 
-        if (aluno.getSaldo() < vantagem.getCusto()) {
-            throw new IllegalArgumentException("Saldo insuficiente para realizar a troca.");
+        if (aluno.getSaldoMoedas() < vantagem.getValor()) {
+            throw new IllegalArgumentException("Saldo insuficiente");
         }
 
-        // Criar a transação com tipo "TROCA"
-        Transacao transacao = new Transacao(aluno, "TROCA", vantagem.getCusto(), new Date());
+        Transacao transacao = new Transacao(aluno, "TROCA", vantagem.getValor(), new Date());
+        transacao.setEmpresa(vantagem.getEmpresa());
         transacaoRepository.save(transacao);
 
-        // Atualizar saldo do aluno
-        aluno.setSaldo(aluno.getSaldo() - vantagem.getCusto());
+        aluno.setSaldoMoedas(aluno.getSaldoMoedas() - vantagem.getValor());
         alunoRepository.save(aluno);
     }
 }
