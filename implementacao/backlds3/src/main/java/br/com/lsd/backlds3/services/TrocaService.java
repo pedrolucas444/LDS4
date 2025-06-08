@@ -9,6 +9,8 @@ import br.com.lsd.backlds3.repositories.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class TrocaService {
 
@@ -23,18 +25,20 @@ public class TrocaService {
 
     public void solicitarTroca(Long vantagemId, Long alunoId) {
         Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado com ID: " + alunoId));
 
         Vantagem vantagem = vantagemRepository.findById(vantagemId)
-                .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada"));
+                .orElseThrow(() -> new IllegalArgumentException("Vantagem não encontrada com ID: " + vantagemId));
 
         if (aluno.getSaldo() < vantagem.getCusto()) {
-            throw new IllegalArgumentException("Saldo insuficiente");
+            throw new IllegalArgumentException("Saldo insuficiente para realizar a troca.");
         }
 
-        Transacao transacao = new Transacao(aluno, vantagem);
+        // Criar a transação com tipo "TROCA"
+        Transacao transacao = new Transacao(aluno, "TROCA", vantagem.getCusto(), new Date());
         transacaoRepository.save(transacao);
 
+        // Atualizar saldo do aluno
         aluno.setSaldo(aluno.getSaldo() - vantagem.getCusto());
         alunoRepository.save(aluno);
     }
