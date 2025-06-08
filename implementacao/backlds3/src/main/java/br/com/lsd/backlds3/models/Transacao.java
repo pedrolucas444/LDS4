@@ -8,7 +8,6 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Transacao {
 
     @Id
@@ -36,4 +35,12 @@ public class Transacao {
     @ManyToOne
     @JoinColumn(name = "empresa_id", nullable = true)
     private Empresa empresa;
+
+    
+    public Transacao(Aluno aluno, String tipo, int montante, Date data) {
+        this.aluno = aluno;
+        this.tipo = tipo;
+        this.montante = montante;
+        this.data = data;
+    }
 }
