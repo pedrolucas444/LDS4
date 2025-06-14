@@ -1,0 +1,51 @@
+@startuml
+
+
+left to right direction
+
+package "System" {
+    
+    component "Interface" {
+        [Tela de Login]
+        [Tela de Envio de Moedas]
+        [Tela de Troca de Moedas]
+        [Tela de Extrato]
+    }
+
+    component "Account" {
+        [Validação de Usuário]
+        [Cadastro de Aluno]
+        [Cadastro de Professor]
+        [Cadastro de Empresa]
+        [Envio de Moedas]
+    }
+
+    component "Vantagens" {
+        [Cadastro de Vantagem]
+        [Geração de Código de Troca]
+        [Troca de Moedas]
+    }
+
+    component "Emails" {
+        [Envio de Notificações]
+        [Envio de E-mails]
+    }
+
+    component "Banco de Dados" {
+        [Usuários]
+        [Transações]
+        [VantagensData]
+        [Códigos de troca]
+        [Notificações]
+    }
+
+    [Interface] ..> [Account] 
+    [Interface] --> [Vantagens] 
+    [Account] --> [Banco de Dados] 
+    [Account] --> [Emails] 
+    [Vantagens] --> [Banco de Dados] 
+    [Vantagens] --> [Emails] 
+    [Emails] --> [Banco de Dados] 
+}
+
+@enduml

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel Inicial</title>
+  <link rel="stylesheet" href="telaInicial.css">
+</head>
+<body>
+  <div class="dashboard" id="dashboard">
+    <h1 id="welcomeMsg">Bem-vindo!</h1>
+
+    <!-- Ações para Aluno -->
+    <div id="alunoActions" style="display:none;">
+      <h2>Ações do Aluno</h2>
+      <button class="btn" id="btnPerfilAluno">Meu Perfil</button>
+      <button class="btn" id="btnVantagens">Listagem de Vantagens</button>
+      <button class="btn" id="btnExtratoAluno">Meu Extrato</button>
+    </div>
+
+    <!-- Ações para Professor -->
+    <div id="professorActions" style="display:none;">
+      <h2>Ações do Professor</h2>
+      <button class="btn" id="btnPerfilProfessor">Meu Perfil</button>
+      <button class="btn" id="btnExtratoProfessor">Meu Extrato</button>
+      <button class="btn" id="btnEnvioMoedasProfessor">Enviar Moedas</button>
+    </div>
+
+    <!-- Ações para Empresa -->
+    <div id="empresaActions" style="display:none;">
+      <h2>Ações da Empresa</h2>
+      <button class="btn" id="btnPerfilEmpresa">Meus Dados</button>
+      <button class="btn" id="btnCadastrarVantagem">Cadastrar Vantagem</button>
+    </div>
+
+    <button class="btn btn-logout" id="btnLogout">Sair</button>
+  </div>
+
+  <script src="telaInicial.js"></script>
+</body>
+</html>

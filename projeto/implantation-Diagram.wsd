@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+node ComputadorPessoal {
+    [Navegador Web]
+}
+
+node ServidorWeb {
+    [Aplicação Web]
+}
+
+node ServidorAplicacao {
+    [Interface]
+    [Account]
+    [Vantagens]
+    [Emails]
+}
+
+node BancoDeDados {
+    [MYSQL Workbench]
+}
+
+' Conexões
+ComputadorPessoal --> ServidorWeb : HTTP/HTTPS
+ServidorWeb --> ServidorAplicacao : REST API / HTTP
+ServidorAplicacao --> BancoDeDados : JDBC / SQL
+
+' Relações internas
+[Interface] --> [Account]
+[Interface] --> [Vantagens]
+[Account] --> [Emails]
+[Account] --> [BancoDeDados]
+[Vantagens] --> [Emails]
+[Vantagens] --> [BancoDeDados]
+[Emails] --> [BancoDeDados]
+
+@enduml

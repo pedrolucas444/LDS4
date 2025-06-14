@@ -1,0 +1,97 @@
+@startuml
+
+    together {
+
+        class Usuario {
+        -nome:String
+        -email:String
+        -senha:String
+        +realizarLogin(): void
+        +consultarExtratoConta(): void
+    }
+        class Instituicao {
+       -String nome
+       -String cnpj
+       +recarregarProfessor(professor: Professor): void
+    }
+
+        class Aluno {
+            -cpf:String
+            -rg:String
+            -endereco:String
+            -instituicao:String
+            -curso:String
+            +cadastrar(): void
+            +receberMoedas(montante: int, motivo: String): void
+            +trocarMoedas(vantagem: Vantagem): void
+        }
+
+        class Professor {
+            -cpf:String
+            -departamento:String
+            -saldoMoedas:int
+            +enviarMoedas(aluno: Aluno, montante: int, motivo: String): void
+            #receberMoedas(montante: int): void
+
+        }
+
+        class Empresa {
+            -cnpj:String
+            +cadastrarVantagem(vantagem: Vantagem): void
+        }
+    }
+
+    class Vantagem {
+        -descricao:String
+        -foto:String
+        -valor:int
+        +gerarCodigoResgate(): String
+    }
+    
+    class Transacao {
+        -tipo: String
+        -montante: int
+        -data: Date
+        -destinatario:String
+        -remetente:String
+    }
+
+    class Extrato {
+    -Usuario dono
+    -List<Transacao> transacoes
+    +consultarTransacoes(): List<Transacao>
+    }
+
+    class Notificacao {
+        -mensagem:String
+        +enviarNotificacao(destinatario: Usuario): void
+    }
+
+    class Email {
+        -remetente:String
+        -destinatario:String
+        -assunto:String
+        -corpo:String
+        +enviar(): void
+    }
+    
+    Empresa ---|> Usuario 
+    Professor ---|> Usuario 
+    Aluno ---|> Usuario
+
+
+    Email --> Vantagem 
+    Usuario --> Extrato 
+    Aluno --> Vantagem 
+    Aluno --> Notificacao 
+    Aluno --> Email 
+    Professor --> Notificacao 
+    Professor --> Aluno 
+    Empresa <--> Vantagem 
+    Vantagem --> Email 
+    Extrato --> Transacao 
+    Transacao --> Usuario 
+    Instituicao --> Professor
+
+
+@enduml

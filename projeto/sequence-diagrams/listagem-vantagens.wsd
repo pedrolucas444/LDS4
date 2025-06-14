@@ -1,0 +1,39 @@
+@startuml
+actor Aluno as A
+participant "Front-End" as FE
+participant "VantagemController" as VC
+participant "VantagemService" as VS
+participant "VantagemRepository" as VR
+participant "Banco de Dados" as DB
+
+== Listagem de Vantagens ==
+
+A -> FE: Acessa página de vantagens
+activate FE
+
+FE -> VC: GET /api/vantagens
+activate VC
+
+VC -> VS: getVantagens()
+activate VS
+
+VS -> VR: findAll()
+activate VR
+
+VR -> DB: SELECT * FROM vantagem
+activate DB
+DB --> VR: Lista de vantagens
+deactivate DB
+
+VR --> VS: List<Vantagem>
+deactivate VR
+
+VS --> VC: List<Vantagem>
+deactivate VS
+
+VC --> FE: HTTP 200 OK + Lista em JSON
+deactivate VC
+
+FE -> A: Exibe lista de vantagens
+deactivate FE
+@enduml

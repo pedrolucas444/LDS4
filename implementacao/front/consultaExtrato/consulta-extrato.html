@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Consulta de Extrato</title>
+  <link rel="stylesheet" href="consulta-extrato.css" />
+</head>
+<body>
+
+<div class="container">
+  <h2>Extrato de Conta</h2>
+  <div class="saldo-info">
+    <h3>Saldo Atual: <span id="saldo">--</span> moedas</h3>
+  </div>
+
+  <div class="transacoes">
+    <h3>Transações</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrição</th>
+          <th>Quantidade</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaTransacoes">
+        <!-- Transações serão inseridas aqui via JS -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="consulta-extrato.js"></script>
+</body>
+</html>

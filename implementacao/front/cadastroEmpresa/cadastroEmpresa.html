@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Empresa</title>
+  <link rel="stylesheet" href="cadastroEmpresa.css">
+</head>
+<body>
+  <div class="buttonv">
+    <a href="/src/front/pages/index.html">
+      <button class="buttonv">Voltar</button>
+    </a>
+  </div>
+
+  <div class="container">
+    <header>Cadastro de Empresa</header>
+    <form id="formEmpresa" action="#">
+      <div class="field">
+        <label for="cnpj">CNPJ</label>
+        <input type="text" id="cnpj" required />
+      </div>
+
+      <div class="field">
+        <label for="nomeEmpresa">Nome da Empresa</label>
+        <input type="text" id="nomeEmpresa" required />
+      </div>
+
+      <div class="field">
+        <label for="senhaEmpresa">Senha</label>
+        <input type="password" id="senhaEmpresa" required />
+      </div>
+
+      <div class="field btns">
+        <button type="submit" class="submit">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+    <script src="/implementacao/front/cadastroEmpresa/cadastroEmpresa.js"></script>
+</body>
+</html>

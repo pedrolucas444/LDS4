@@ -1,0 +1,65 @@
+@startuml
+actor Aluno as A
+actor Professor as P
+participant "Front-End" as FE
+participant "Controller" as C
+participant "Service" as S
+participant "Repositórios" as R
+database "Banco de Dados" as DB
+
+== Consulta de Extrato (Aluno) ==
+A -> FE: Acessa página de extrato
+activate FE
+FE -> A: Solicita ID do aluno
+deactivate FE
+A -> FE: Informa ID do aluno
+activate FE
+FE -> C: GET /api/alunos/{id}/extrato
+activate C
+C -> S: consultarExtratoAluno(id)
+activate S
+S -> R: Buscar aluno por ID
+activate R
+R -> DB: SELECT * FROM aluno WHERE id = ?
+DB --> R: Retorna dados do aluno
+deactivate R
+S -> R: Buscar transações do aluno
+activate R
+R -> DB: SELECT * FROM transacao WHERE aluno_id = ?
+DB --> R: Lista de transações
+deactivate R
+S --> C: ExtratoDTO com saldo e transações
+deactivate S
+C --> FE: ExtratoDTO com dados formatados
+deactivate C
+FE -> A: Exibe saldo e transações no extrato
+deactivate FE
+
+== Consulta de Extrato (Professor) ==
+P -> FE: Acessa página de extrato
+activate FE
+FE -> P: Solicita ID do professor
+deactivate FE
+P -> FE: Informa ID do professor
+activate FE
+FE -> C: GET /api/professores/{id}/extrato
+activate C
+C -> S: consultarExtratoProfessor(id)
+activate S
+S -> R: Buscar professor por ID
+activate R
+R -> DB: SELECT * FROM professor WHERE id = ?
+DB --> R: Retorna dados do professor
+deactivate R
+S -> R: Buscar transações do professor
+activate R
+R -> DB: SELECT * FROM transacao WHERE professor_id = ?
+DB --> R: Lista de transações
+deactivate R
+S --> C: ExtratoDTO com saldo e transações
+deactivate S
+C --> FE: ExtratoDTO com dados formatados
+deactivate C
+FE -> P: Exibe saldo e transações no extrato
+deactivate FE
+@enduml

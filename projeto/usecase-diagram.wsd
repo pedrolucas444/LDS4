@@ -1,0 +1,36 @@
+@startuml
+
+:Usuario:
+:Aluno:
+:Professor:
+:Empresa: 
+
+Usuario <|-- Aluno
+Usuario <|-- Professor
+Usuario <|-- Empresa
+
+rectangle "Ações do Sistema" {
+  (realizar login)
+  (consultar extrato)
+  (realizar cadastro)
+  (trocar moedas)
+  (enviar moedas)
+  (cadastrar vantagem)
+  (notificar aluno)
+  (adicionar foto e descricao)
+}
+
+Usuario --> (realizar login)
+Usuario --> (consultar extrato)
+Usuario --> (realizar cadastro)
+
+Aluno --> (trocar moedas)
+
+Professor --> (enviar moedas)
+(enviar moedas) --> :Aluno: : recebe
+(enviar moedas) .> (notificar aluno) : include
+
+Empresa --> (cadastrar vantagem)
+(cadastrar vantagem) .> (adicionar foto e descricao) : include
+
+@enduml
