@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Random;
 
 @Service
 public class TrocaService {
@@ -22,6 +23,9 @@ public class TrocaService {
 
     @Autowired
     private TransacaoRepository transacaoRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public void solicitarTroca(Long vantagemId, Long alunoId) {
         Aluno aluno = alunoRepository.findById(alunoId)
@@ -40,5 +44,26 @@ public class TrocaService {
 
         aluno.setSaldoMoedas(aluno.getSaldoMoedas() - vantagem.getValor());
         alunoRepository.save(aluno);
+
+        // Gerar código/cupom
+        String codigoCupom = String.valueOf(1000 + new Random().nextInt(9000));
+
+        // Enviar e-mail para o aluno
+        if (aluno.getEmail() != null) {
+            emailService.sendEmail(
+                aluno.getEmail(),
+                "Cupom de Vantagem",
+                "Parabéns! Você resgatou a vantagem '" + vantagem.getDescricao() + "'.\nCódigo do cupom: " + codigoCupom
+            );
+        }
+
+        // Enviar e-mail para o professor (assumindo que a vantagem tem um professor associado)
+        if (vantagem.getEmpresa() != null && vantagem.getEmpresa().getEmail() != null) {
+            emailService.sendEmail(
+                vantagem.getEmpresa().getEmail(),
+                "Cupom de Vantagem Resgatado",
+                "O aluno '" + aluno.getNome() + "' resgatou a vantagem '" + vantagem.getDescricao() + ".\nCódigo do cupom: " + codigoCupom
+            );
+        }
     }
 }
