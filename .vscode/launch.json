@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-Backlds3Application<backlds3>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "br.com.lsd.backlds3.Backlds3Application",
+      "projectName": "backlds3",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

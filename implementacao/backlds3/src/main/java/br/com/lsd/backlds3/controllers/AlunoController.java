@@ -38,7 +38,7 @@ public class AlunoController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("CPF ou senha inválidos");
         }
 
-        return ResponseEntity.ok(aluno);
+        return ResponseEntity.ok(aluno); // ou gerar um token JWT
     }
 
     @Operation(description = "Cria um aluno")
