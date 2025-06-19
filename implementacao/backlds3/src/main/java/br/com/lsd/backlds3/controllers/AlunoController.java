@@ -78,18 +78,4 @@ public class AlunoController {
         ExtratoAlunoDTO extrato = alunoService.consultarExtrato(id);
         return ResponseEntity.ok(extrato);
     }
-
-    @PostMapping("/{alunoId}/resgatar-vantagem/{vantagemId}")
-    public ResponseEntity<String> resgatarVantagem(@PathVariable Long alunoId, @PathVariable Long vantagemId) {
-        try {
-            alunoService.resgatarVantagem(alunoId, vantagemId);
-            Random random = new Random();
-            int codigoResgate = 1000 + random.nextInt(9000);
-            return ResponseEntity.ok(
-                    "Vantagem de Id " + vantagemId + " resgatada com sucesso!\n" +
-                            "Código para resgate: " + codigoResgate);
-        } catch (Exception e) {
-            return ResponseEntity.unprocessableEntity().body(e.getMessage());
-        }
-    }
 }

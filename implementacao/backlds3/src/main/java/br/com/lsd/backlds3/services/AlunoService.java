@@ -89,28 +89,4 @@ public class AlunoService {
         int saldo = aluno.getSaldoMoedas();
         return new ExtratoAlunoDTO(saldo, transacoesDTO);
     }
-
-    public void resgatarVantagem(Long alunoId, Long vantagemId) {
-        Aluno aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-
-        Vantagem vantagem = vantagemRepository.findById(vantagemId)
-                .orElseThrow(() -> new RuntimeException("Vantagem não encontrada"));
-
-        if (aluno.getSaldoMoedas() < vantagem.getValor()) {
-            throw new RuntimeException("Saldo insuficiente");
-        }
-
-        aluno.setSaldoMoedas(aluno.getSaldoMoedas() - vantagem.getValor());
-        alunoRepository.save(aluno);
-
-        Transacao transacao = new Transacao();
-        transacao.setTipo("Resgate de Vantagem");
-        transacao.setMontante(vantagem.getValor());
-        transacao.setAluno(aluno);
-        transacao.setData(new Date());
-        transacao.setEmpresa(vantagem.getEmpresa());
-
-        transacaoRepository.save(transacao);
-    }
 }
